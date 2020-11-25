@@ -15,7 +15,7 @@ api = tweepy.API(auth)
 
 tweets = []
 
-all_tweets = tweepy.Cursor(api.search, q='Trump', lang = "en").items(10)
+all_tweets = tweepy.Cursor(api.search, q='Trump', lang = "en").items(100)
 
 for tweet in all_tweets:
     tweets.append(tweet.text)
