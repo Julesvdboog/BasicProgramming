@@ -1,5 +1,6 @@
 import tweepy
 from textblob import TextBlob
+import re
 
 consumer_key = "bbBt9FB9XcODqo9zoDQXYmIl0"
 consumer_secret = "qgZy4KLEblYPDwvUP08CcGQ23vJig19lbOJHg31Z1DzYPPdArM"
@@ -18,5 +19,11 @@ all_tweets = tweepy.Cursor(api.search, q='Trump', lang = "en").items(10)
 for tweet in all_tweets:
     tweets.append(tweet.text)
     
-print(tweets)
-print(len(tweets))
+def Tokenizer(zin):
+    nieuwe_zin = re.findall("\w+", str(zin))
+    ignore = ['to','is', 'in']
+    cleaned_zin = [w.lower() for w in nieuwe_zin if w not in ignore]
+    print(cleaned_zin)
+    
+Tokenizer(tweets)
+
