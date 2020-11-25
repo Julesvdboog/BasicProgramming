@@ -11,8 +11,13 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-public_tweets = api.search('Trump', count = 1000, lang = "en", until = "2020-11-03")
+tweets = []
+
+public_tweets = api.search('Trump', count = 100000, lang = "en", until = "2020-11-20")
 for tweet in public_tweets:
-    print(tweet.text)
-    analysis = TextBlob(tweet.text)
-    print(analysis.sentiment)
+    tweets.append(tweet)
+
+
+print(len(tweets))
+
+
