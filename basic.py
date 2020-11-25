@@ -1,5 +1,3 @@
-pip install tweepy
-pip install textblob|
 import tweepy
 from textblob import TextBlob
 
@@ -13,9 +11,8 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-public_tweets = api.search('Trump')
+public_tweets = api.search('Trump', count = 1000, lang = "en", until = "2020-11-03")
 for tweet in public_tweets:
     print(tweet.text)
     analysis = TextBlob(tweet.text)
     print(analysis.sentiment)
-    
