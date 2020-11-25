@@ -1,6 +1,7 @@
 import tweepy
 from textblob import TextBlob
 import re
+from collections import Counter
 
 consumer_key = "bbBt9FB9XcODqo9zoDQXYmIl0"
 consumer_secret = "qgZy4KLEblYPDwvUP08CcGQ23vJig19lbOJHg31Z1DzYPPdArM"
@@ -23,7 +24,10 @@ def Tokenizer(zin):
     nieuwe_zin = re.findall("\w+", str(zin))
     ignore = ['to','is', 'in']
     cleaned_zin = [w.lower() for w in nieuwe_zin if w not in ignore]
-    print(cleaned_zin)
+    nieuw = Counter(cleaned_zin)
+    return nieuw
     
-Tokenizer(tweets)
+    
+
+print(Tokenizer(tweets))
 
