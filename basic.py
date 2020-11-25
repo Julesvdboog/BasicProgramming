@@ -13,11 +13,10 @@ api = tweepy.API(auth)
 
 tweets = []
 
-public_tweets = api.search('Trump', count = 100000, lang = "en", until = "2020-11-20")
-for tweet in public_tweets:
-    tweets.append(tweet)
+all_tweets = tweepy.Cursor(api.search, q='Trump', lang = "en").items(10)
 
-
+for tweet in all_tweets:
+    tweets.append(tweet.text)
+    
+print(tweets)
 print(len(tweets))
-
-
