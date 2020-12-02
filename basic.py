@@ -1,10 +1,11 @@
-from __future__ import unicode_literals
-from pattern.en import sentiment as sentiment_en
 import tweepy
-from textblob import TextBlob
 import re
 from collections import Counter
+import nltk
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import CountVectorizer
 
+nltk.download('stopwords')
 
 consumer_key = "bbBt9FB9XcODqo9zoDQXYmIl0"
 consumer_secret = "qgZy4KLEblYPDwvUP08CcGQ23vJig19lbOJHg31Z1DzYPPdArM"
@@ -17,30 +18,41 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 tweets = []
-
-all_tweets = tweepy.Cursor(api.search, q='Trump', lang = "en").items(100)
-
+all_tweets = tweepy.Cursor(api.search, q='Trump', lang = "en").items(100
+                                                                     )
 for tweet in all_tweets:
     tweets.append(tweet.text)
     
-    
- 
+
+stop_words= set(stopwords.words("english"))
+print(stop_words)
+
 def Tokenizer(zin):
-    nieuwe_zin = re.findall("\w+", str(zin))
-    ignore = ['to','is','in']
+    nieuwe_zin = re.findall("\w{2,50}", str(zin))
+    ignore = ['to','is','in','the','rt','and','of','on','it','co','https']
     cleaned_zin = [w.lower() for w in nieuwe_zin if w not in ignore]
     nieuw = Counter(cleaned_zin)
     return nieuw
     
-
 print(Tokenizer(tweets))
 
-STOP_WORDS = set(tweets)
+vectorizer = CountVectorizer()
+vectorizer.fit(tweets)
+print(vectorizer.vocabulary_)
+print(vector.shape)
+print(vector.toarray())
 
-for tweet in all_tweets:
-    tweets.count(tweet.text)
+for_df = []
 
-for tweet in all_tweets:
-    polarity, subjectivity = sentiment_en(tweets)
-    print(polarity, subjectivity)
+for t in all_tweets:
+    for_df.append({
+            "user": t.user.screen_name, 
+            "text": t.text,
+            "created_at": t.created_at,
+            "retweets": t.retweet_count
+        })
+    
+df = pd.DataFrame.from_records(for_df)
+df.head()ctorizer.transform(tweets)
+
 
