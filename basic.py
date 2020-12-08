@@ -42,5 +42,17 @@ print(vectorizer.vocabulary_)
 print(vector.shape)
 print(vector.toarray())
 
+for_df = []
+
+for t in all_tweets:
+    for_df.append({
+            "user": t.user.screen_name, 
+            "text": t.text,
+            "created_at": t.created_at,
+            "retweets": t.retweet_count
+        })
+    
+df = pd.DataFrame.from_records(for_df)
+df.head()ctorizer.transform(tweets)
 
 
