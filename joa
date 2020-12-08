@@ -1,0 +1,35 @@
+import tweepy
+from pattern.en import sentiment as sentiment_en
+import nltk
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import CountVectorizer
+
+nltk.download('stopwords')
+
+consumer_key = "bbBt9FB9XcODqo9zoDQXYmIl0"
+consumer_secret = "qgZy4KLEblYPDwvUP08CcGQ23vJig19lbOJHg31Z1DzYPPdArM"
+access_token = "1329013165443739648-Tj3hRpOJiiR4MpuMPR9R7rpastliqz"
+access_token_secret = "lxCtAJNeoaiIe9oWC7MyBuJ6jRyjgS1seCJilFE4Vtjgt"
+
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+
+api = tweepy.API(auth)
+
+tweets = []
+all_tweets = tweepy.Cursor(api.search, q='Trump', lang = "en").items(10)
+for tweet in all_tweets:
+    tweets.append(tweet.text)
+    
+
+stop_words= set(stopwords.words("english"))
+
+vectorizer = CountVectorizer(stop_words=stop_words, analyzer='word', ngram_range=(1, 1), max_df=1.0, min_df=1, max_features=None)
+vectorizer.fit(tweets)
+print(vectorizer.vocabulary_)
+
+txt= "javaphysician': 43, 'jaykman80': 44, 'brendankeefe': 12, 'gabrielsterling': 30, 'deserve': 20, '1000': 0, 'times': 78, 'installing': 41, 'trump': 80, 'https': 39, 'co': 17, 'yxy48rm4ug': 87, 'rt': 69, 'marceelias': 53, 'lost': 52, 'recounts': 65, 'georgia': 32, 'wisconsin': 84, 'lose': 51, '3rd': 1, 'another': 5, 'al': 4, 'richardhine': 68, 'hunter': 40, 'biden': 10, 'corrupt': 18, 'children': 15, 'ones': 59, 'need': 57, 'pardons': 60, 'funder': 29, 'building': 13, 'wing': 83, 'leavenworth': 49, 'sorry': 73, 'struggling': 76, 'mom': 54, 'pop': 62, 'small': 72, 'businesses': 14, 'kushner': 48, 'stole': 75, 'ppp': 63, 'money': 55, 'txlove73bc': 81, 'dknight10k': 21, 'good': 33, 'morning': 56, 'yes': 86, 'prison': 64, 'time': 77, 'lizfortx8': 50, 'still': 74, 'asking': 8, 'defend': 19, 'election': 25, 'point': 61, 'requests': 67, 'become': 9, 'actionable': 3, 'fraud': 28, 'joyannreid': 45, 'gotta': 34, 'earn': 23, 'generate': 31, 'donors': 22, 'grift': 35, 'norskladywolf': 58, 'know': 47, 'rush': 70, 'sell': 71, 'billions': 11, 'arms': 7, 'united': 82, 'arab': 6, 'emirates': 26, 'helping': 37, 'finance': 27, 'edouglas8': 24, 'cnnbrk': 16, 'wow': 85, 'released': 66, 'judge': 46, 'howell': 38, 'today': 79, 'guess': 36, 'accusing': 2, 'j0duvwmk82': 42"
+
+sentiment = txt.split("'")
+polarity, subjectivity = sentiment_en(sentiment)
+print(polarity, subjectivity)
